@@ -3,7 +3,7 @@ import "./App.css";
 import Container from "react-bootstrap/Container";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
-import { Search } from "./components/Search/Search";
+import { Search } from "./components/Search";
 
 function App() {
   return (
@@ -14,7 +14,11 @@ function App() {
         </Row>
         <Row>
           <Col xs={12}>
-            <Search />
+            <Search
+              onSubmit={(value) => {
+                console.log(`Search :: onSubmit('${value}')`);
+              }}
+            />
           </Col>
         </Row>
         <Row>
