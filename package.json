@@ -7,7 +7,9 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "serve": "vite preview",
-    "test": "jest"
+    "format": "npx prettier --write src",
+    "test": "jest",
+    "test:cover": "jest --coverage=true"
   },
   "repository": {
     "type": "git",
