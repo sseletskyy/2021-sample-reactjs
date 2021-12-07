@@ -5,7 +5,8 @@ import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import { Search } from "./components/Search";
 import { Results } from "./components/Results";
-import { subscribeToUsersMock } from "./components/Results/mock.data";
+import { fetchUsersOnSearchSubmit } from "./PubSub/Flows";
+import { subscribeToUsersResponse } from "./PubSub";
 
 function App() {
   return (
@@ -16,16 +17,12 @@ function App() {
         </Row>
         <Row>
           <Col xs={12}>
-            <Search
-              onSubmit={(value) => {
-                console.log(`Search :: onSubmit('${value}')`);
-              }}
-            />
+            <Search onSubmit={fetchUsersOnSearchSubmit} />
           </Col>
         </Row>
         <Row>
           <Col xs={12}>
-            <Results subscribeToUsers={subscribeToUsersMock} />
+            <Results subscribeToUsers={subscribeToUsersResponse} />
           </Col>
         </Row>
         <Row>

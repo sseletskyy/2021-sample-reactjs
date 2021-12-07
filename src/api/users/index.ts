@@ -27,5 +27,5 @@ export const fetchUsers = (url: string): Promise<UsersResponse> =>
     .then((response) => response.json())
     .then(convertApiResponse);
 
-export const fetchUsersByLogin = (login: string) =>
+export const fetchUsersBySearchString = (login: string) =>
   fetchUsers(getFetchUsersUrl(login));

@@ -1,7 +1,10 @@
 import { SubscribeToCallback, UnsubscribeFn } from "../api/utils";
+import {Notification, UsersResponse} from "../Models";
 
 export enum CustomEvents {
   submitSearch = "submitSearch",
+  fetchUsers = "fetchUsers",
+  notification = "notification",
 }
 
 export interface ACustomEvent<T> extends Event {
@@ -11,6 +14,7 @@ export interface ACustomEvent<T> extends Event {
 // generic function to broadcast any custom event
 export function broadcastFrom<T>(customEvent: CustomEvents) {
   return (detail: T): void => {
+    console.log(`Broadcast event [${customEvent}] :: value`, detail);
     const event = new CustomEvent<T>(customEvent, {
       detail,
     });
@@ -23,6 +27,7 @@ export function subscribeTo<T>(customEvent: CustomEvents) {
   return (callback: SubscribeToCallback<T>): UnsubscribeFn => {
     // define listener callback
     const internalCallback = (event: ACustomEvent<T>) => {
+      console.log(`Subscribe to event [${customEvent}] :: value`, event.detail);
       event.detail !== undefined && callback(event.detail);
     };
 
@@ -42,4 +47,20 @@ export const broadcastSearchSubmit = broadcastFrom<string>(
 
 export const subscribeToSearchSubmit = subscribeTo<string>(
   CustomEvents.submitSearch
+);
+
+export const broadcastUsersResponse = broadcastFrom<UsersResponse>(
+  CustomEvents.fetchUsers
+);
+
+export const subscribeToUsersResponse = subscribeTo<UsersResponse>(
+  CustomEvents.fetchUsers
+);
+
+export const broadcastNotification = broadcastFrom<Notification>(
+  CustomEvents.notification
+);
+
+export const subscribeToNotification = subscribeTo<Notification>(
+  CustomEvents.notification
 );
