@@ -22,3 +22,6 @@ Configure test env (jest, testing-library)
 - `npm i -D jest ts-jest @types/jest`
 - `npx ts-jest config:init`
 - `npm i -D @testing-library/react @testing-library/jest-dom`
+
+Install fp-ts (library for functional programming)
+- `npm i --save fp-ts`

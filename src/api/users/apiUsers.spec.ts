@@ -1,5 +1,5 @@
-import { convertApiResponse, getFetchUsersUrl, PER_PAGE } from "./index";
-import { ApiUser, ApiUsersResponse, UsersResponse } from "../../Models";
+import {convertApiResponse, getFetchUsersUrl, parseHeaderLink, PER_PAGE} from "./index";
+import {ApiUser, ApiUsersResponse, PaginationLinks, UsersResponse} from "../../Models";
 
 describe("API : Users", () => {
   describe("getFetchUsersUrl", () => {
@@ -41,4 +41,32 @@ describe("API : Users", () => {
       expect(actual).toEqual(expected);
     });
   });
+  describe("parseHeaderLink", () => {
+    const linkNextAndLast = `<https://api.github.com/search/users?q=test+in%3Alogin&per_page=9&page=2>; rel="next", <https://api.github.com/search/users?q=test+in%3Alogin&per_page=9&page=112>; rel="last"`;
+    const linkAll = `<https://api.github.com/search/code?q=addClass+user%3Amozilla&page=13>; rel="prev", <https://api.github.com/search/code?q=addClass+user%3Amozilla&page=15>; rel="next", <https://api.github.com/search/code?q=addClass+user%3Amozilla&page=34>; rel="last", <https://api.github.com/search/code?q=addClass+user%3Amozilla&page=1>; rel="first"`;
+
+    describe("when input contains next and last values", () => {
+      it("should return object with keys next and last", () => {
+        const actual = parseHeaderLink(linkNextAndLast);
+        const expected = {
+          last: "https://api.github.com/search/users?q=test+in%3Alogin&per_page=9&page=112",
+          next: "https://api.github.com/search/users?q=test+in%3Alogin&per_page=9&page=2",
+        };
+        expect(actual).toEqual(expected);
+      });
+    });
+    describe("when input contains all values", () => {
+      it("should return full object", () => {
+        const actual = parseHeaderLink(linkAll);
+        const expected: PaginationLinks = {
+          first: "https://api.github.com/search/code?q=addClass+user%3Amozilla&page=1",
+          last: "https://api.github.com/search/code?q=addClass+user%3Amozilla&page=34",
+          next: "https://api.github.com/search/code?q=addClass+user%3Amozilla&page=15",
+          prev: "https://api.github.com/search/code?q=addClass+user%3Amozilla&page=13"
+        };
+        expect(actual).toEqual(expected);
+      });
+    });
+  });
+
 });
