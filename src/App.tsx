@@ -7,6 +7,8 @@ import { Search } from "./components/Search";
 import { Results } from "./components/Results";
 import { fetchUsersOnSearchSubmit } from "./PubSub/Flows";
 import { subscribeToUsersResponse } from "./PubSub";
+import { subscribeToPaginationLinksMock } from "./components/Paginator/mock.data";
+import { Paginator } from "./components/Paginator";
 
 function App() {
   return (
@@ -26,7 +28,14 @@ function App() {
           </Col>
         </Row>
         <Row>
-          <Col xs={12}>[paginator]</Col>
+          <Col xs={12}>
+            <Paginator
+              subscribeToPaginationLinks={subscribeToPaginationLinksMock}
+              onPageClick={(link) => {
+                console.log(`page clicked: ${link}`);
+              }}
+            />
+          </Col>
         </Row>
       </Container>
     </div>
