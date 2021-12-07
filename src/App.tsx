@@ -5,7 +5,10 @@ import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import { Search } from "./components/Search";
 import { Results } from "./components/Results";
-import { fetchUsersAndPaginationLinksOnSearch } from "./PubSub/Flows";
+import {
+  fetchUsersAndPaginationLinksOnPageClick,
+  fetchUsersAndPaginationLinksOnSearch,
+} from "./PubSub/Flows";
 import { subscribeToPaginationLinks, subscribeToUsersResponse } from "./PubSub";
 import { Paginator } from "./components/Paginator";
 
@@ -30,9 +33,7 @@ function App() {
           <Col xs={12}>
             <Paginator
               subscribeToPaginationLinks={subscribeToPaginationLinks}
-              onPageClick={(link) => {
-                console.log(`page clicked: ${link}`);
-              }}
+              onPageClick={fetchUsersAndPaginationLinksOnPageClick}
             />
           </Col>
         </Row>
