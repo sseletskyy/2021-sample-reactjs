@@ -1,5 +1,15 @@
-import {convertApiResponse, getFetchUsersUrl, parseHeaderLink, PER_PAGE} from "./index";
-import {ApiUser, ApiUsersResponse, PaginationLinks, UsersResponse} from "../../Models";
+import {
+  convertApiResponse,
+  getFetchUsersUrl,
+  parseHeaderLink,
+  PER_PAGE,
+} from "./index";
+import {
+  ApiUser,
+  ApiUsersResponse,
+  PaginationLinks,
+  UsersResponse,
+} from "../../Models";
 
 describe("API : Users", () => {
   describe("getFetchUsersUrl", () => {
@@ -59,14 +69,14 @@ describe("API : Users", () => {
       it("should return full object", () => {
         const actual = parseHeaderLink(linkAll);
         const expected: PaginationLinks = {
-          first: "https://api.github.com/search/code?q=addClass+user%3Amozilla&page=1",
+          first:
+            "https://api.github.com/search/code?q=addClass+user%3Amozilla&page=1",
           last: "https://api.github.com/search/code?q=addClass+user%3Amozilla&page=34",
           next: "https://api.github.com/search/code?q=addClass+user%3Amozilla&page=15",
-          prev: "https://api.github.com/search/code?q=addClass+user%3Amozilla&page=13"
+          prev: "https://api.github.com/search/code?q=addClass+user%3Amozilla&page=13",
         };
         expect(actual).toEqual(expected);
       });
     });
   });
-
 });

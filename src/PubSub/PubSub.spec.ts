@@ -1,4 +1,4 @@
-import {broadcastSearchSubmit, subscribeToSearchSubmit} from "./index";
+import { broadcastSearchSubmit, subscribeToSearchSubmit } from "./index";
 import { UnsubscribeFn } from "../api/utils";
 
 describe("PubSub", () => {
@@ -9,8 +9,8 @@ describe("PubSub", () => {
     });
     it("should broadcast value to all subscribers", () => {
       // arrange
-      const searchValueFirst = 'abc';
-      const searchValueSecond = 'def';
+      const searchValueFirst = "abc";
+      const searchValueSecond = "def";
       const subscribeCallbackOne = jest.fn();
       const subscribeCallbackTwo = jest.fn();
 
