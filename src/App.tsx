@@ -5,9 +5,8 @@ import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import { Search } from "./components/Search";
 import { Results } from "./components/Results";
-import { fetchUsersOnSearchSubmit } from "./PubSub/Flows";
-import { subscribeToUsersResponse } from "./PubSub";
-import { subscribeToPaginationLinksMock } from "./components/Paginator/mock.data";
+import { fetchUsersAndPaginationLinksOnSearch } from "./PubSub/Flows";
+import { subscribeToPaginationLinks, subscribeToUsersResponse } from "./PubSub";
 import { Paginator } from "./components/Paginator";
 
 function App() {
@@ -19,7 +18,7 @@ function App() {
         </Row>
         <Row>
           <Col xs={12}>
-            <Search onSubmit={fetchUsersOnSearchSubmit} />
+            <Search onSubmit={fetchUsersAndPaginationLinksOnSearch} />
           </Col>
         </Row>
         <Row>
@@ -30,7 +29,7 @@ function App() {
         <Row>
           <Col xs={12}>
             <Paginator
-              subscribeToPaginationLinks={subscribeToPaginationLinksMock}
+              subscribeToPaginationLinks={subscribeToPaginationLinks}
               onPageClick={(link) => {
                 console.log(`page clicked: ${link}`);
               }}
