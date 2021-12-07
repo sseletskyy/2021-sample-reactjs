@@ -9,15 +9,24 @@ import {
   fetchUsersAndPaginationLinksOnPageClick,
   fetchUsersAndPaginationLinksOnSearch,
 } from "./PubSub/Flows";
-import { subscribeToPaginationLinks, subscribeToUsersResponse } from "./PubSub";
+import {
+  subscribeToNotification,
+  subscribeToPaginationLinks,
+  subscribeToUsersResponse,
+} from "./PubSub";
 import { Paginator } from "./components/Paginator";
+import { NotificationComponent } from "./components/Notification";
 
 function App() {
   return (
     <div className="App">
       <Container className="m-1">
         <Row>
-          <Col xs={12}>[notifications]</Col>
+          <Col xs={12}>
+            <NotificationComponent
+              subscribeToNotification={subscribeToNotification}
+            />
+          </Col>
         </Row>
         <Row>
           <Col xs={12}>

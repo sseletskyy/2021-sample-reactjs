@@ -34,6 +34,13 @@ export const convertApiResponse = ({
 export const fetchUsers = (url: string): Promise<UsersResponse> =>
   fetch(url)
     .then((response) => response.json())
+    .then((response) => {
+      if (response.message) {
+        throw response.message;
+      } else {
+        return response;
+      }
+    })
     .then(convertApiResponse);
 
 export const fetchUsersBySearchString = (searchString: string) =>
@@ -82,13 +89,20 @@ export const parseHeaderLink = (link: string): PaginationLinks => {
 };
 
 export const fetchPaginationLinks = (url: string): Promise<PaginationLinks> =>
-  fetch(url, { method: "HEAD" }).then((response) =>
-    pipe(
-      response,
-      (r) => r.headers.get("link"),
-      (link) => (link ? parseHeaderLink(link) : {})
+  fetch(url, { method: "HEAD" })
+    .then((response) =>
+      pipe(
+        response,
+        (r) => r.headers.get("link"),
+        (link) => (link ? parseHeaderLink(link) : null)
+      )
     )
-  );
+    .then((response) => {
+      if (response === null) {
+        throw `error`;
+      }
+      return response;
+    });
 
 export const fetchPaginationLinksBySearchString = (searchString: string) =>
   fetchPaginationLinks(getFetchUsersUrl(searchString));

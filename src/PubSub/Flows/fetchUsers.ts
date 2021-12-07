@@ -3,13 +3,15 @@ import { broadcastNotification, broadcastUsersResponse } from "../index";
 import { broadcastOnFetch, BroadcastOnFetchProps } from "./utils";
 import { UsersResponse } from "../../Models";
 
+const timestamp = (): string => new Date().toLocaleTimeString();
+
 const broadcastOnError: BroadcastOnFetchProps<
   string,
   UsersResponse
 >["broadcastOnSuccess"] = (data) => {
   broadcastNotification({
     mode: "error",
-    message: `Request to get search results failed: ${String(data)}`,
+    message: `${timestamp()}: Request to get search results failed: ${String(data)}`,
   });
 };
 
