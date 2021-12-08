@@ -1,0 +1,11 @@
+@media screen and (max-width: 768px) {
+  .results-container {
+    tr {
+      display: grid;
+    }
+    th:not(:last-child),
+    td:not(:last-child) {
+      border-bottom: lightgray solid 1px;
+    }
+  }
+}
