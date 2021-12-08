@@ -1,5 +1,5 @@
-import { ResultsProps } from "./Results";
 import { UsersResponse } from "../../Models";
+import { ResultsProps } from "./types";
 
 export const usersResponseMock: UsersResponse = {
   totalCount: 2,
@@ -9,13 +9,13 @@ export const usersResponseMock: UsersResponse = {
       id: 1,
       login: "a",
       type: "user",
-      avatarUrl: "http://a.b.c",
+      avatarUrl: "https://www.a.b.c",
     },
     {
       id: 2,
       login: "b",
       type: "company",
-      avatarUrl: "https://www.company.com",
+      avatarUrl: "https://company.com",
     },
   ],
 };
