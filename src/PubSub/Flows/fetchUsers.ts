@@ -14,7 +14,7 @@ const broadcastOnSuccess: BroadcastOnFetchProps<
   string,
   UsersAndLinks
 >["broadcastOnSuccess"] = ({ usersResponse, paginationLinks }) => {
-  console.log(`Broadcast on Success`, usersResponse, paginationLinks);
+  // console.log(`Broadcast on Success`, usersResponse, paginationLinks);
   broadcastUsersResponse(usersResponse);
   broadcastPaginationLinks(paginationLinks);
   broadcastApiFetching(false);

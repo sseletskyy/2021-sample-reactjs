@@ -41,7 +41,6 @@ export const Results: VFC<ResultsProps> = ({ subscribeToUsers }) => {
   const columnClickHandler =
     (field: keyof User) => (event: MouseEvent<HTMLAnchorElement>) => {
       event.preventDefault();
-      console.log(`clicked on ${field}`);
       if (sorting.field === field) {
         toggleOrder();
       } else {
