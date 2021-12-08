@@ -6,16 +6,16 @@ import Row from "react-bootstrap/Row";
 import { Search } from "./components/Search";
 import { Results } from "./components/Results";
 import {
-  fetchUsersAndPaginationLinksOnPageClick,
-  fetchUsersAndPaginationLinksOnSearch,
-} from "./PubSub/Flows";
-import {
   subscribeToNotification,
   subscribeToPaginationLinks,
   subscribeToUsersResponse,
 } from "./PubSub";
 import { Paginator } from "./components/Paginator";
 import { NotificationComponent } from "./components/Notification";
+import {
+  fetchUsersOnPageClick,
+  fetchUsersOnSearchSubmit,
+} from "./PubSub/Flows";
 
 function App() {
   return (
@@ -30,7 +30,7 @@ function App() {
         </Row>
         <Row>
           <Col xs={12}>
-            <Search onSubmit={fetchUsersAndPaginationLinksOnSearch} />
+            <Search onSubmit={fetchUsersOnSearchSubmit} />
           </Col>
         </Row>
         <Row>
@@ -42,7 +42,7 @@ function App() {
           <Col xs={12}>
             <Paginator
               subscribeToPaginationLinks={subscribeToPaginationLinks}
-              onPageClick={fetchUsersAndPaginationLinksOnPageClick}
+              onPageClick={fetchUsersOnPageClick}
             />
           </Col>
         </Row>

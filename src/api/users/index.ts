@@ -8,6 +8,7 @@ import {
   User,
   UsersResponse,
 } from "../../Models";
+import { UsersAndLinks } from "../../Models/users";
 
 export const PER_PAGE = 9;
 
@@ -31,23 +32,11 @@ export const convertApiResponse = ({
   items: items.map(convertApiUser),
 });
 
-export const fetchUsers = (url: string): Promise<UsersResponse> =>
-  fetch(url)
-    .then((response) => response.json())
-    .then((response) => {
-      if (response.message) {
-        throw response.message;
-      } else {
-        return response;
-      }
-    })
-    .then(convertApiResponse);
-
-export const fetchUsersBySearchString = (searchString: string) =>
-  fetchUsers(getFetchUsersUrl(searchString));
-
-export const parseHeaderLink = (link: string): PaginationLinks => {
+export const parseHeaderLink = (link: string | null): PaginationLinks => {
   //  const ary = (link);
+  if (!link) {
+    return {};
+  }
   return pipe(
     link,
     // @ts-expect-error suppress ReadonlyNonEmptyArray mismatch array
@@ -83,26 +72,38 @@ export const parseHeaderLink = (link: string): PaginationLinks => {
     // convert to PaginationLinks
     A.reduce<[string, string], PaginationLinks>(
       {} as PaginationLinks,
-      (acc, [url, rel]) => ((acc[rel as keyof PaginationLinks] = url), acc)
+      (acc, [url, rel]) => {
+        acc[rel as keyof PaginationLinks] = url;
+        return acc;
+      }
     )
   );
 };
 
-export const fetchPaginationLinks = (url: string): Promise<PaginationLinks> =>
-  fetch(url, { method: "HEAD" })
-    .then((response) =>
-      pipe(
-        response,
-        (r) => r.headers.get("link"),
-        (link) => (link ? parseHeaderLink(link) : null)
-      )
-    )
+const combineResponseWithHeaderLink = async (
+  response: Response
+): Promise<ApiUsersResponse> => {
+  const json = await response.json();
+  const headerLink = response.headers.get("link");
+  return {
+    ...json,
+    headerLink,
+  } as ApiUsersResponse;
+};
+
+export const fetchUsers = (url: string): Promise<UsersAndLinks> =>
+  fetch(url)
+    .then(combineResponseWithHeaderLink)
     .then((response) => {
-      if (response === null) {
-        throw `error`;
+      if (response.message) {
+        throw response.message;
+      } else {
+        return {
+          usersResponse: convertApiResponse(response),
+          paginationLinks: parseHeaderLink(response.headerLink),
+        };
       }
-      return response;
     });
 
-export const fetchPaginationLinksBySearchString = (searchString: string) =>
-  fetchPaginationLinks(getFetchUsersUrl(searchString));
+export const fetchUsersBySearchString = (searchString: string) =>
+  fetchUsers(getFetchUsersUrl(searchString));

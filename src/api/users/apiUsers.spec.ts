@@ -34,6 +34,7 @@ describe("API : Users", () => {
             id: 22,
           } as ApiUser,
         ],
+        headerLink: null
       };
       const actual = convertApiResponse(apiResponseMock);
       const expected: UsersResponse = {

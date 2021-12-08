@@ -1,3 +1,5 @@
+import {PaginationLinks} from "./paginationLinks";
+
 export interface ApiUser {
   login: string;
   id: number;
@@ -21,9 +23,11 @@ export interface ApiUser {
 }
 
 export interface ApiUsersResponse {
+  message?: string;
   total_count: number;
   incomplete_results: boolean;
   items: ApiUser[];
+  headerLink: string | null;
 }
 
 export interface User {
@@ -37,4 +41,9 @@ export interface UsersResponse {
   totalCount: number;
   incompleteResults: boolean;
   items: User[];
+}
+
+export interface UsersAndLinks {
+  usersResponse: UsersResponse;
+  paginationLinks: PaginationLinks;
 }
