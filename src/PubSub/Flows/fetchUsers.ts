@@ -1,5 +1,6 @@
 import { fetchUsers, fetchUsersBySearchString } from "../../api/users";
 import {
+  broadcastApiFetching,
   broadcastNotification,
   broadcastPaginationLinks,
   broadcastUsersResponse,
@@ -16,6 +17,7 @@ const broadcastOnSuccess: BroadcastOnFetchProps<
   console.log(`Broadcast on Success`, usersResponse, paginationLinks);
   broadcastUsersResponse(usersResponse);
   broadcastPaginationLinks(paginationLinks);
+  broadcastApiFetching(false);
 };
 
 const broadcastOnError: BroadcastOnFetchProps<
@@ -28,10 +30,12 @@ const broadcastOnError: BroadcastOnFetchProps<
       data
     )}`,
   });
+  broadcastApiFetching(false);
 };
 
 const onSearchSubmitProps: BroadcastOnFetchProps<string, UsersAndLinks> = {
   fetchFn(data: string): Promise<UsersAndLinks> {
+    broadcastApiFetching(true);
     return fetchUsersBySearchString(data);
   },
   broadcastOnSuccess,
@@ -44,6 +48,7 @@ export const fetchUsersOnSearchSubmit = broadcastOnFetch<string, UsersAndLinks>(
 
 const onPageClickProps: BroadcastOnFetchProps<string, UsersAndLinks> = {
   fetchFn(data: string): Promise<UsersAndLinks> {
+    broadcastApiFetching(true);
     return fetchUsers(data);
   },
   broadcastOnSuccess,

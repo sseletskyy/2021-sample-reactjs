@@ -2,14 +2,15 @@
 module.exports = {
   roots: ["<rootDir>/src"],
   clearMocks: true,
-  preset: 'ts-jest',
+  preset: "ts-jest",
   transform: {
-    "^.+\\.tsx?$": "ts-jest"
+    "^.+\\.tsx?$": "ts-jest",
   },
-  testEnvironment: 'jsdom',
-  setupFilesAfterEnv: [
-    "@testing-library/jest-dom/extend-expect"
-  ],
+  testEnvironment: "jsdom",
+  setupFilesAfterEnv: ["@testing-library/jest-dom/extend-expect"],
 
-  moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"]
+  moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
+  moduleNameMapper: {
+    "\\.(css|less|sass|scss)$": "<rootDir>/__mocks__/styleMock.js",
+  },
 };

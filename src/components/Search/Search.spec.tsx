@@ -3,13 +3,14 @@ import { fireEvent, render, screen } from "@testing-library/react";
 
 const defaultProps: SearchProps = {
   onSubmit() {},
+  subscribeToApiFetching: () => () => {},
 };
 
 interface SetupReturn {
   inputElement: HTMLInputElement;
   submitElement: HTMLButtonElement;
 }
-const setup = (overrideProps: SearchProps = defaultProps): SetupReturn => {
+const setup = (overrideProps?: Partial<SearchProps>): SetupReturn => {
   const props = {
     ...defaultProps,
     ...overrideProps,
@@ -49,6 +50,27 @@ describe("Search", () => {
       // assert
       expect(submitHandler).toHaveBeenCalledTimes(1);
       expect(submitHandler).toHaveBeenLastCalledWith(inputValue);
+    });
+  });
+  describe("when ApiFetching is true", () => {
+    it("should disable submit button", () => {
+      // arrange
+      const inputValue = "alpha";
+      const submitHandler = jest.fn();
+      const { inputElement, submitElement } = setup({
+        onSubmit: submitHandler,
+        subscribeToApiFetching: (callback) => {
+          callback(true);
+          return () => {};
+        },
+      });
+      fireEvent.change(inputElement, { target: { value: inputValue } });
+
+      // act
+      fireEvent.click(submitElement);
+
+      // assert
+      expect(submitHandler).toHaveBeenCalledTimes(0);
     });
   });
 });

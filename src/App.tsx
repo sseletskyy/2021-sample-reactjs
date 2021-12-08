@@ -6,6 +6,7 @@ import Row from "react-bootstrap/Row";
 import { Search } from "./components/Search";
 import { Results } from "./components/Results";
 import {
+  subscribeToApiFetching,
   subscribeToNotification,
   subscribeToPaginationLinks,
   subscribeToUsersResponse,
@@ -30,7 +31,10 @@ function App() {
         </Row>
         <Row>
           <Col xs={12}>
-            <Search onSubmit={fetchUsersOnSearchSubmit} />
+            <Search
+              onSubmit={fetchUsersOnSearchSubmit}
+              subscribeToApiFetching={subscribeToApiFetching}
+            />
           </Col>
         </Row>
         <Row>

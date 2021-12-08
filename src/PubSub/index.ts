@@ -1,11 +1,17 @@
 import { SubscribeToCallback, UnsubscribeFn } from "../api/utils";
-import { Notification, PaginationLinks, UsersResponse } from "../Models";
+import {
+  ApiFetching,
+  Notification,
+  PaginationLinks,
+  UsersResponse,
+} from "../Models";
 
 export enum CustomEvents {
   submitSearch = "submitSearch",
   fetchUsers = "fetchUsers",
   notification = "notification",
   fetchPaginationLinks = "fetchPaginationLinks",
+  fetchingApi = "fetchingApi",
 }
 
 export interface ACustomEvent<T> extends Event {
@@ -72,4 +78,12 @@ export const broadcastPaginationLinks = broadcastFrom<PaginationLinks>(
 
 export const subscribeToPaginationLinks = subscribeTo<PaginationLinks>(
   CustomEvents.fetchPaginationLinks
+);
+
+export const broadcastApiFetching = broadcastFrom<ApiFetching>(
+  CustomEvents.fetchingApi
+);
+
+export const subscribeToApiFetching = subscribeTo<ApiFetching>(
+  CustomEvents.fetchingApi
 );

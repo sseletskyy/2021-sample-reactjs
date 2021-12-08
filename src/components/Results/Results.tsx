@@ -36,9 +36,7 @@ export const Results: VFC<ResultsProps> = ({ subscribeToUsers }) => {
   };
 
   // subscribe to users
-  useEffect(() => {
-    return subscribeToUsers(setUsersResponse);
-  }, []);
+  useEffect(() => subscribeToUsers(setUsersResponse), []);
 
   const columnClickHandler =
     (field: keyof User) => (event: MouseEvent<HTMLAnchorElement>) => {
