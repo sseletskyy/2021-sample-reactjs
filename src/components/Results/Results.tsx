@@ -9,6 +9,12 @@ const defaultSorting: Sorting = {
   order: "asc",
 };
 
+const displayedColumns: [keyof User, string][] = [
+  ["avatarUrl", "Avatar URL"],
+  ["login", "Login"],
+  ["type", "Type"],
+];
+
 export const Results: VFC<ResultsProps> = ({ subscribeToUsers }) => {
   const [usersResponse, setUsersResponse] = useState<UsersResponse>();
 
@@ -47,45 +53,42 @@ export const Results: VFC<ResultsProps> = ({ subscribeToUsers }) => {
   const renderArrow = (linkField: keyof User): ReactNode | null => {
     const { field: sortField, order } = sorting;
     return linkField !== sortField ? null : order === "asc" ? (
-      <>&nbsp;&darr;</>
+      <>
+        &nbsp;&darr;&nbsp;<sup>a-z</sup>
+      </>
     ) : (
-      <>&nbsp;&uarr;</>
+      <>
+        &nbsp;&uarr;&nbsp;<sup>z-a</sup>
+      </>
     );
   };
 
-  const renderHead = () => (
-    <tr>
-      <th>
-        <a href="#" onClick={columnClickHandler("avatarUrl")}>
-          avatar url
+  const renderColumnLinks = () =>
+    displayedColumns.map(([field, title]) => (
+      <th key={field}>
+        <a href="#" onClick={columnClickHandler(field)}>
+          {title}
         </a>
-        {renderArrow("avatarUrl")}
+        {renderArrow(field)}
       </th>
-      <th>
-        <a href="#" onClick={columnClickHandler("login")}>
-          login
-        </a>
-        {renderArrow("login")}
-      </th>
-      <th>
-        <a href="#" onClick={columnClickHandler("type")}>
-          type
-        </a>
-        {renderArrow("type")}
-      </th>
-    </tr>
-  );
+    ));
 
   const renderUser = (user: User) => (
     <tr key={user.id}>
-      <td> {user.avatarUrl} </td>
+      <td>
+        {user.avatarUrl}
+        <br />
+        <img width={50} height={50} src={user.avatarUrl} alt="" />
+      </td>
       <td> {user.login} </td>
       <td> {user.type} </td>
     </tr>
   );
   return !usersResponse ? null : (
     <Table striped bordered responsive>
-      <thead>{renderHead()}</thead>
+      <thead>
+        <tr>{renderColumnLinks()}</tr>
+      </thead>
       <tbody>
         {Array.isArray(usersResponse?.items) &&
           usersResponse.items.sort(sortUsersBy(sorting)).map(renderUser)}
