@@ -1,4 +1,4 @@
-import {PaginationLinks} from "./paginationLinks";
+import { PaginationLinks } from "./paginationLinks";
 
 export interface ApiUser {
   login: string;

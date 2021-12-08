@@ -2,7 +2,8 @@
   .results-container tr {
     display: grid;
   }
-  .results-container th:not(:last-child), td:not(:last-child) {
+  .results-container th:not(:last-child),
+  td:not(:last-child) {
     border-bottom: #7f7f7f solid 1px;
   }
 }
