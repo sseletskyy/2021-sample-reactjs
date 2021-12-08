@@ -1,5 +1,6 @@
 import React, { MouseEvent, ReactNode, useEffect, useState, VFC } from "react";
 import Table from "react-bootstrap/Table";
+import Stack from "react-bootstrap/Stack";
 import "./Results.scss";
 import { User, UsersResponse } from "../../Models";
 import { ResultsProps, SortField, Sorting } from "./types";
@@ -74,9 +75,10 @@ export const Results: VFC<ResultsProps> = ({ subscribeToUsers }) => {
   const renderUser = (user: User) => (
     <tr key={user.id}>
       <td>
-        {user.avatarUrl}
-        <br />
-        <img width={50} height={50} src={user.avatarUrl} alt={user.login} />
+        <Stack direction="horizontal" gap={3}>
+          <img width={32} height={32} src={user.avatarUrl} alt={user.login} />
+          {user.avatarUrl}
+        </Stack>
       </td>
       <td> {user.login} </td>
       <td> {user.type} </td>
